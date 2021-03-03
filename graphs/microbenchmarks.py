@@ -11,8 +11,7 @@ benchmark = "microbenchmarks"
 
 mydpi = 300
 figname = benchmark+'.png'
-# pltsize = (6.2, 1.96) # default (8, 6)
-pltsize = (6.2, 2.1)
+pltsize = (6, 2.4)
 wordSizes = ["8", "16", "32", "64"]
 
 data = {
@@ -41,24 +40,24 @@ width = 0.22       # the width of the bars
 fig, ax = plt.subplots(figsize=pltsize)
 ax.margins(0.02, 0.02)
 
-rects1 = ax.bar(index - width, fib, width, color='mediumspringgreen', hatch='ooo', edgecolor='black', linewidth=1)
-rects2 = ax.bar(index, fact, width, color='cornflowerblue', hatch='...', edgecolor='black', linewidth=1)
-rects3 = ax.bar(index + width, pir, width, color='lightcoral', hatch='////', edgecolor='black', linewidth=1)
-rects4 = ax.bar(index + 2*width, fibMUX, width, color = 'lightpink', hatch='xxxx', edgecolor='black', linewidth=1)
+rects1 = ax.bar(index - width, fib, width, color='xkcd:light salmon', hatch='xx', edgecolor='black', linewidth=1)
+rects2 = ax.bar(index, fact, width, color='xkcd:ecru', hatch='--', edgecolor='black', linewidth=1)
+rects3 = ax.bar(index + width, pir, width, color='xkcd:very light green', hatch='..', edgecolor='black', linewidth=1)
+rects4 = ax.bar(index + 2*width, fibMUX, width, color = 'xkcd:very light blue', hatch='++', edgecolor='black', linewidth=1)
 
 ax.set_yscale('log')
-ax.set_ylim([1, 10000])
+ax.set_ylim([10, 10000])
 ax.set_ylabel("Time (s)")
 ax.set_xlabel("Word Size (bits)")
 ax.set_xticks(index)
 ax.set_xticklabels(wordSizes)
-ax.legend((rects1[0], rects2[0], rects3[0], rects4[0]), ("Fibonacci", "Factorial", "PIR", "Fibonacci (no MUX)"), fontsize=7, ncol=2, loc='upper left')
+ax.legend((rects1[0], rects2[0], rects3[0], rects4[0]), ("Fibonacci", "Factorial", "PIR", "Fibonacci (no MUX)"), fontsize=8, ncol=2, loc='upper left')
 
 def autolabel(rects):
     for rect in rects:
         height = rect.get_height()
-        if height > 10:
-            ax.text(rect.get_x() + rect.get_width()/2., 1.1*height, '%2.1f' % (height), ha='center', va='bottom', fontsize=7)
+        if height > 100:
+            ax.text(rect.get_x() + rect.get_width()/2., 1.1*height, '%3.0f' % (height), ha='center', va='bottom', fontsize=7)
         else:
             ax.text(rect.get_x() + rect.get_width()/2., 1.1*height, '%2.1f' % (height), ha='center', va='bottom', fontsize=7)
 

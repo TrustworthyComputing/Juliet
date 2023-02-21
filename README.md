@@ -5,6 +5,9 @@
 ### Overview
 Juliet is a framework ...
 
+docker build -t juliet .
+
+docker run --rm -i -t juliet bash
 
 <p align="center">
     <img src="./logos/twc.png" height="20%" width="20%">

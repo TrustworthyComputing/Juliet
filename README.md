@@ -1,9 +1,14 @@
 <h1 align="center">Juliet <a href="https://github.com/TrustworthyComputing/Juliet/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a> </h1>
 <h3 align="center">An Execution Engine for an Encrypted Processor</h3>
 
+### Prerequisites 
+1. Install [TFHE](https://github.com/tfhe/tfhe) 
+2. Update library path if necessary: \
+``export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$TFHE_INSTALL_DIR/lib``
 
 ### Overview
-Juliet is a framework ...
+Juliet is a framework for general-purpose computation with Fully Homomorphic
+Encryption (FHE).
 
 docker build -t juliet .
 

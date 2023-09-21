@@ -307,6 +307,26 @@ void comparator(Ctxt* result, Ctxt* not_a, Ctxt* not_b, Ctxt* temp, Ctxt* greate
     //delete [] less_than;
 }
 
+void ripple_adder(Ctxt* result, const Ctxt* a, const Ctxt* b, const int nb_bits, Stream* st_list) {
+
+    Ctxt* carry = new Ctxt[nb_bits+1];
+    Ctxt* temp = new Ctxt[1];
+    //initialize first carry to 0
+    Constant(carry[0], 0);
+
+    //run full adders
+    for (int i = 0; i < nb_bits; i++) {
+      Xor(temp[0], a[i], b[i], st[i%NUM_SMS]);
+      // Compute sum
+      Xor(result[i], carry[i], temp[0], st[i%NUM_SMS]);
+      // Compute carry
+      Mux(carry[i+1], temp[0], carry[i], a[i], st[i%NUM_SMS]);
+    }
+
+    delete [] carry;
+    delete [] temp;
+}
+
 //7
 void adder(Ctxt* result, Ctxt* carry_out, Ctxt** p, Ctxt** g, Ctxt* temp, const Ctxt* a, const Ctxt* b, const int nb_bits, Stream* st_list) {
 

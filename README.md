@@ -4,7 +4,9 @@
 ### Prerequisites 
 1. Install [TFHE](https://github.com/tfhe/tfhe) 
 2. Update library path if necessary: \
-``export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$TFHE_INSTALL_DIR/lib``
+``export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<TFHE_INSTALL_DIR>/lib``
+``export LIBRARY_PATH=$LIBRARY_PATH:<CUFHE_DIR>/cufhe/bin``
+``export CPLUS_INCLUDE_PATH=$CPLUS_INCLUDE_PATH:<CUFHE_DIR>/cufhe/include``
 
 ### Overview
 Juliet is a framework for general-purpose computation with Fully Homomorphic

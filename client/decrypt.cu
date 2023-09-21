@@ -9,6 +9,9 @@
 #include <fstream>
 #include <string>
 
+using namespace cufhe;
+using namespace std;
+
 int main(int argc, char** argv) {
 
     // import private key
@@ -18,7 +21,7 @@ int main(int argc, char** argv) {
     //read the ciphertexts of the result
     int wordSize = atoi(argv[2]);
     Ctxt* answer = new Ctxt[wordSize];
-    ifstream answer_data (string(argv[1]));
+    ifstream answer_data(argv[1]);
     for (int i=0; i<wordSize; i++)
         ReadCtxtFromFile(answer[i], answer_data);
 

@@ -1,5 +1,6 @@
 #!/bin/bash
+mkdir -p ../cloud_enc/encrypted_data
+mkdir -p ../cloud_enc/tapes
 filename="preAux.txt"
-while read -r line || [[-n "$line" ]]; do
-    ./preprocessor $line
-done < "$filename"
+wordsize="16"
+./preprocessor $filename $wordsize

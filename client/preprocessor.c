@@ -5,7 +5,8 @@
 
 int main(int argc, char **argv) {
 
-    FILE* ctxt_mem = fopen("priv.txt", "w");
+    seed_randomness();
+    FILE* ctxt_mem = fopen("../cloud_enc/tapes/priv.txt", "w");
     char* fileName = (char*) malloc(50);
 
     // import private key
@@ -15,6 +16,8 @@ int main(int argc, char **argv) {
 
     // get embedded params
     const TFheGateBootstrappingParameterSet* params = key->params;
+
+    const char* directory = "../cloud_enc/";
 
     int wordSize = atoi(argv[2]);
     FILE* ptxt_vals = fopen(argv[1], "r");
@@ -26,13 +29,19 @@ int main(int argc, char **argv) {
         bootsSymEncrypt(&ctxt[i], (plaintext1>>i)&1, key);
       }
       fileName = gen_filename();
-      FILE* answer_data = fopen(fileName,"wb");
+      size_t fname_len = strlen(directory) + strlen(fileName) + 1;
+      char* full_fname = (char*)malloc(fname_len);
+      strcpy(full_fname, directory); // Copy the first part
+      strcat(full_fname, fileName); // Concatenate the second part
+      printf("%s\n", full_fname);
+      FILE* answer_data = fopen(full_fname,"wb");
       for (int i=0; i<wordSize; i++)
           export_gate_bootstrapping_ciphertext_toFile(answer_data, &ctxt[i], params);
       fclose(answer_data);
       // export ciphertext filename to aux tape index
       fprintf(ctxt_mem, "%s", fileName);
       fprintf(ctxt_mem, "\n");
+      free(full_fname);
     }
 
     fclose(ctxt_mem);

@@ -8,5 +8,5 @@
 
 int exists(const char *fname);
 char* gen_filename();
-
+void seed_randomness();
 #endif

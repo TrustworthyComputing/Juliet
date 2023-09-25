@@ -13,7 +13,6 @@ int exists(const char *fname)
 
 char* gen_filename()
 {
-  srand(time(0));
   int isTaken = 1;
   char* fileName = (char*) malloc(50);
   while (isTaken != 0) {
@@ -27,4 +26,9 @@ char* gen_filename()
       isTaken = exists(fileName);
   }
   return fileName;
+}
+
+void seed_randomness()
+{
+    srand(time(0));
 }

@@ -342,7 +342,6 @@ def juliet_ee(fileName, W=8, K=16):
                 content = f.readlines()
             content = [x.strip() for x in content]
             f.close()
-
             ctxtOneFile = content[ctxtOne - 1]
             ctxtTwoFile = content[ctxtTwo - 1]
 
@@ -736,7 +735,7 @@ def juliet_ee(fileName, W=8, K=16):
                 intAnswer.reverse()
 
             storeReg = P[pc + 1]
-            regList[regSelect(storeReg, K)] = intAnswer
+            regList[regSelect(storeReg, K)] = num_to_bits(intAnswer, W, func)
             pc = pc + 4
 
         elif (func == 'j'):
@@ -912,7 +911,6 @@ def juliet_ee(fileName, W=8, K=16):
             reg = P[pc + 1]
 
             memOffset = 0
-
             ri = regList[regSelect(reg, K)]
             memAddress = P[pc + 2]
 
@@ -1033,5 +1031,5 @@ def juliet_ee(fileName, W=8, K=16):
                 break
 
 start = time.time()
-juliet_ee("Benchmarks/PIR.asm", 8, 16)
+juliet_ee("Benchmarks/MatrixMultiplication.asm", 16, 64)
 print("Time elapsed: ", time.time() - start)

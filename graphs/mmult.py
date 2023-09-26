@@ -32,27 +32,23 @@ plt.rcParams['pdf.fonttype'] = 42
 
 set_style()
 
-wordSizes = ["8", "16", "32", "64"]
+ptxt = [0.099, 0.3, 0.7]
+ctxt = [950.1, 3186.9, 7522.3]
+ctxt_gpu = [814.7, 2749.5, 6517.3]
 
-fib = [49.8, 99.1, 199.5, 398.6]
-fibMUX = [123.3, 364.5, 1221.6, 4289.4]
-fact = [100.9, 317.3, 1098.1, 4004.9]
-pir = [92.7, 186.6, 373.1, 745.0]
-
-
-sz = len(fib)
+sz = len(ptxt)
 df = pd.DataFrame({
-  "Alg": ["Fibonacci"] * sz + ["Fibonacci (no MUX)"] * sz + ["Factorial"] * sz + ["PIR"] * sz ,
-  "Word Size": ['8 bits', '16 bits', '32 bits', '64 bits'] * sz,
-  "Time (sec.)": fib + fibMUX + fact + pir
+  "Alg":  ["Juliet over Plaintexts (Baseline)"] * sz + ["Juliet over Ciphertexts"] * sz + ["Juliet over Ciphertexts (GPU)"] * sz,
+  "Matrices Size": ['4x4 x 4x4', '6x6 x 6x6', '8x8 x 8x8'] * sz,
+  "Time (sec.)": ptxt + ctxt + ctxt_gpu
 })
 
-ax = sns.lineplot(x='Word Size', y='Time (sec.)', hue='Alg', style='Alg', markers=True, data=df)
-ax.legend(ncol=2, loc='upper left')
+ax = sns.lineplot(x='Matrices Size', y='Time (sec.)', hue='Alg', style='Alg', markers=True, data=df)
+ax.legend(ncol=1, loc='upper left')
 ax.xaxis.grid(False)  # remove vertical axis
-ax.set_yscale('log')
-ax.set_yticks((40, 100, 1000, 10000), minor=True)
+# ax.set_yscale('log')
+# ax.set_yticks((40, 100, 1000, 10000))
 
 
 plt.tight_layout()
-plt.savefig('microbenchmarks.png', dpi=300, bbox_inches="tight", pad_inches=0.03)
+plt.savefig('mmult.png', dpi=300, bbox_inches="tight", pad_inches=0.03)

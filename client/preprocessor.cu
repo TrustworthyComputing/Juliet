@@ -41,12 +41,14 @@ string gen_filename()
 int main(int argc, char **argv) {
 
     ofstream ctxt_mem;
-    ctxt_mem.open("priv.txt");
+    ctxt_mem.open("../cloud_enc/tapes/priv.txt");
     string fileName;
 
     // import private key
     PriKey key;
     ReadPriKeyFromFile(key, "super_secret.key");
+
+    const char* directory = "../cloud_enc/";
 
     int wordSize = atoi(argv[2]);
     FILE* ptxt_vals = fopen(argv[1], "r");
@@ -61,8 +63,12 @@ int main(int argc, char **argv) {
         Encrypt(ctxt[i], ptxt[i], key);
       }
       fileName = gen_filename();
+      size_t fname_len = strlen(directory) + strlen(fileName) + 1;
+      char* full_fname = (char*)malloc(fname_len);
+      strcpy(full_fname, directory); // Copy the first part
+      strcat(full_fname, fileName); // Concatenate the second part
       for (int i=0; i<wordSize; i++) {
-          WriteCtxtToFile(ctxt[i], fileName);
+          WriteCtxtToFile(ctxt[i], full_fname);
       }
       // export ciphertext filename to aux tape index
       ctxt_mem << fileName;

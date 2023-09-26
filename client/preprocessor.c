@@ -33,7 +33,6 @@ int main(int argc, char **argv) {
       char* full_fname = (char*)malloc(fname_len);
       strcpy(full_fname, directory); // Copy the first part
       strcat(full_fname, fileName); // Concatenate the second part
-      printf("%s\n", full_fname);
       FILE* answer_data = fopen(full_fname,"wb");
       for (int i=0; i<wordSize; i++)
           export_gate_bootstrapping_ciphertext_toFile(answer_data, &ctxt[i], params);

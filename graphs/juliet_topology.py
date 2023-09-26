@@ -7,10 +7,10 @@ def set_style():
   paper_rc = {
       'font.family': 'serif',
       'font.serif': ['Times', 'Palatino', 'serif'],
-      'font.size': 13,
-      'legend.fontsize': 10,
-      'xtick.labelsize': 11,
-      'ytick.labelsize': 11,
+      'font.size': 14,
+      'legend.fontsize': 12,
+      'xtick.labelsize': 12,
+      'ytick.labelsize': 12,
       'lines.linewidth': 2,
       'lines.markersize': 10,
       'grid.linestyle': '--',
@@ -44,6 +44,9 @@ df = pd.DataFrame({
 
 ax = sns.lineplot(x='Circuit Depth', y='Num. Logic Gates', hue='Adder', style='Adder', markers=True, data=df)
 ax.legend(ncol=1, loc='upper right')
+ax.set_yticks((0, 10, 20, 30))
+ax.set_xticks((1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17))
+ax.xaxis.grid(False)  # remove vertical axis
 
 
 plt.tight_layout()

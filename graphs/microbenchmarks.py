@@ -1,72 +1,60 @@
 #!/usr/bin/python
 
 import matplotlib.pyplot as plt
-from matplotlib import colors
-import numpy as np
-import sys
-import string
+from matplotlib import rc
+import pandas as pd
+import seaborn as sns
+
+from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)
 
 
-benchmark = "microbenchmarks"
+def set_style():
+  paper_rc = {
+      'font.family': 'serif',
+      'font.serif': ['Times', 'Palatino', 'serif'],
+      'font.size': 14,
+      'legend.fontsize': 12,
+      'xtick.labelsize': 12,
+      'ytick.labelsize': 12,
+      'lines.linewidth': 2,
+      'lines.markersize': 10,
+      'grid.linestyle': '--',
+      'ytick.major.size': 0.1,
+      'ytick.minor.size': 0.1,
+  }
+  # Set the font to be serif, rather than sans
+  sns.set(font='serif', rc=paper_rc)
+  sns.set_style('whitegrid', rc=paper_rc)
+  sns.color_palette('colorblind')
 
-mydpi = 300
-figname = benchmark+'.png'
-pltsize = (6, 2.4)
+
+fig = plt.figure(figsize=(8, 3))
+rc('font',**{'family':'serif','serif':['Palatino']})
+plt.rcParams['pdf.fonttype'] = 42
+
+set_style()
+
 wordSizes = ["8", "16", "32", "64"]
 
-data = {
-    'microbenchmarks': {
-        'fib' : [49.8, 99.1, 199.5, 398.6], 'fact' : [100.9, 317.3, 1098.1, 4004.9],
-        'pir' : [92.7, 186.6, 373.1, 745.0], 'fibMUX' : [123.3, 364.5, 1221.6, 4289.4]
-        }
-}
-
-# for key, value in data[benchmark].items():
-#     for i in range(len(value)):
-#         value[i] /= 1000
-#     data[benchmark][key] = value
+fib = [49.8, 99.1, 199.5, 398.6]
+fibMUX = [123.3, 364.5, 1221.6, 4289.4]
+fact = [100.9, 317.3, 1098.1, 4004.9]
+pir = [92.7, 186.6, 373.1, 745.0]
 
 
-fib = data[benchmark]['fib']
-fact = data[benchmark]['fact']
-pir = data[benchmark]['pir']
-fibMUX = data[benchmark]['fibMUX']
+sz = len(fib)
+df = pd.DataFrame({
+  "Alg": ["Fibonacci"] * sz + ["Fibonacci (no MUX)"] * sz + ["Factorial"] * sz + ["PIR"] * sz ,
+  "Word Size": ['8 bits', '16 bits', '32 bits', '64 bits'] * sz,
+  "Time (sec.)": fib + fibMUX + fact + pir
+})
 
-N = len(fib)
-index = np.arange(N)  # the x locations for the groups
-# width = 0.42       # the width of the bars
-width = 0.22       # the width of the bars
-
-fig, ax = plt.subplots(figsize=pltsize)
-ax.margins(0.02, 0.02)
-
-rects1 = ax.bar(index - width, fib, width, color='xkcd:light salmon', hatch='xx', edgecolor='black', linewidth=1)
-rects2 = ax.bar(index, fact, width, color='xkcd:ecru', hatch='--', edgecolor='black', linewidth=1)
-rects3 = ax.bar(index + width, pir, width, color='xkcd:very light green', hatch='..', edgecolor='black', linewidth=1)
-rects4 = ax.bar(index + 2*width, fibMUX, width, color = 'xkcd:very light blue', hatch='++', edgecolor='black', linewidth=1)
-
+ax = sns.lineplot(x='Word Size', y='Time (sec.)', hue='Alg', style='Alg', markers=True, data=df)
+ax.legend(ncol=2, loc='upper left')
+ax.xaxis.grid(False)  # remove vertical axis
 ax.set_yscale('log')
-ax.set_ylim([10, 10000])
-ax.set_ylabel("Time (s)")
-ax.set_xlabel("Word Size (bits)")
-ax.set_xticks(index)
-ax.set_xticklabels(wordSizes)
-ax.legend((rects1[0], rects2[0], rects3[0], rects4[0]), ("Fibonacci", "Factorial", "PIR", "Fibonacci (no MUX)"), fontsize=8, ncol=2, loc='upper left')
+ax.set_yticks((40, 100, 1000, 10000), minor=True)
 
-def autolabel(rects):
-    for rect in rects:
-        height = rect.get_height()
-        if height > 100:
-            ax.text(rect.get_x() + rect.get_width()/2., 1.1*height, '%3.0f' % (height), ha='center', va='bottom', fontsize=7)
-        else:
-            ax.text(rect.get_x() + rect.get_width()/2., 1.1*height, '%2.1f' % (height), ha='center', va='bottom', fontsize=7)
-
-autolabel(rects1)
-autolabel(rects2)
-autolabel(rects3)
-autolabel(rects4)
-
-# plt.show()
 
 plt.tight_layout()
-plt.savefig(figname,dpi=mydpi, bbox_inches="tight", pad_inches=0.03)
+plt.savefig('microbenchmarks.png', dpi=300, bbox_inches="tight", pad_inches=0.03)

@@ -1,46 +1,65 @@
-import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import rc
+import pandas as pd
+import seaborn as sns
 
-mydpi = 300
-pltsize = (6, 2.4)
+def set_style():
+  paper_rc = {
+      'font.family': 'serif',
+      'font.serif': ['Times', 'Palatino', 'serif'],
+      'font.size': 14,
+      'legend.fontsize': 12,
+      'xtick.labelsize': 12,
+      'ytick.labelsize': 12,
+      'lines.linewidth': 2,
+      'lines.markersize': 10,
+      'grid.linestyle': '--',
+      'ytick.major.size': 0.1,
+      'ytick.minor.size': 0.05,
+  }
+  # Set the font to be serif, rather than sans
+  sns.set(font='serif', rc=paper_rc)
+  sns.set_style('whitegrid', rc=paper_rc)
+  sns.color_palette('colorblind')
 
-julietgpu = [ 7.13, 16.3, 50 ]
+
+fig = plt.figure(figsize=(8, 3))
+rc('font',**{'family':'serif','serif':['Palatino']})
+plt.rcParams['pdf.fonttype'] = 42
+
+set_style()
+
 juliet = [ 88.4, 187.3, 579.8 ]
+juliet_gpu = [ 7.13, 16.3, 50 ]
 e3 = [ 1334.29, 3751, None ]
-e3_extrap = [ 1334.29, 3751, 10598.4 ]
 t2 = [ 303.639, 804.728, 2637.153 ]
 vsp = [ 145.72, None, None ]
+
+e3_extrap = [ 1334.29, 3751, 10598.4 ]
 vsp_extrap = [ 145.72, 335.19, 1072.4992 ]
 vsp_gpu_extrap = [ 33.64, 77.4, 247.7 ]
+none = [None, None, None]
+
+sz = len(juliet)
+df = pd.DataFrame({
+  "Alg": ["Juliet"] * sz + ["Juliet GPU"] * sz + ["T2"] * sz + ["E$^3$"] * sz + ["VSP"] * sz + ["VSP GPU"] * sz,
+  "Simon Block/Key Size": ['32/64', '64/96', '128/128'] * 6,
+  "Time (sec.)": juliet + juliet_gpu + t2 + e3 + vsp + none,
+
+  "Time (sec.) extrap": none + none + none + e3_extrap + vsp_extrap + vsp_gpu_extrap,
+})
+
+ax = sns.lineplot(x='Simon Block/Key Size', y='Time (sec.)', hue='Alg', style='Alg', markers=True, data=df)
+ax = sns.lineplot(x='Simon Block/Key Size', y='Time (sec.) extrap', hue='Alg', style='Alg', markers=True, data=df, alpha = 0.3, legend=False)
 
 
-N = len(juliet)
-index = np.arange(N)  # the x locations for the groups
+ax.legend(ncol=3, loc='upper left')
 
-fig, ax = plt.subplots(figsize=pltsize)
-
-e3_extrap_trend = ax.plot(index, e3_extrap, linestyle='dashed', color='xkcd:orange', markerfacecolor='xkcd:light orange', marker='p', linewidth=2, markersize=9, alpha=0.3)
-e3_trend = ax.plot(index, e3, linestyle='solid', color='xkcd:orange', markerfacecolor='xkcd:light orange', marker='p', linewidth=2, markersize=9)
-t2_trend = ax.plot(index, t2, linestyle='solid', color='xkcd:dark yellow', markerfacecolor='xkcd:butter yellow', marker='^', linewidth=2, markersize=9)
-vsp_extrap_trend = ax.plot(index, vsp_extrap, linestyle='dashed', color='xkcd:dark red', markerfacecolor='xkcd:light red', marker='o', linewidth=2, markersize=8, alpha=0.3)
-vsp_trend = ax.plot(index, vsp, linestyle='solid', color='xkcd:dark red', markerfacecolor='xkcd:light red', marker='o', linewidth=2, markersize=8)
-vsp_gpu_trend = ax.plot(index, vsp_gpu_extrap, linestyle='dashed', color='xkcd:dark grey', markerfacecolor='xkcd:light grey', marker='h', linewidth=2, markersize=8, alpha=0.3)
-juliet_trend = ax.plot(index, juliet, linestyle='solid', color='xkcd:blue', markerfacecolor='xkcd:light blue', marker='D', linewidth=2, markersize=7)
-juliet_gpu_trend = ax.plot(index, julietgpu, linestyle='solid', color='xkcd:green', markerfacecolor='xkcd:light green', marker='s', linewidth=2, markersize=8)
-
-ax.set_axisbelow(True)
-ax.grid(True, axis='y', which="both", linewidth = "0.3", linestyle='--')
+ax.xaxis.grid(False)  # remove vertical axis
 ax.set_yscale('log')
-ax.set_ylim([4, 100000])
-ax.set_yticks([10, 100, 1000, 10000, 100000])
-ax.set_ylabel('time (sec.)', fontsize=13)
-ax.legend((juliet_trend[0],  juliet_gpu_trend[0], t2_trend[0], e3_trend[0], vsp_trend[0], vsp_gpu_trend[0]), ['Juliet', 'Juliet GPU', 'T2', 'E3', 'VSP', 'VSP GPU'], fontsize=8, ncol=3, loc='upper left')
+ax.set_ylim([5, 150000])
+ax.set_yticks((10, 100, 1000, 10000, 100000))
 
-ax.set_xticks(index)
-ax.set_xlabel('Simon Block/Key size', fontsize=13)
-ax.set_xticklabels(['32/64', '64/96', '128/128'])
-
-ax.tick_params(axis='both', which='major', labelsize=11)
 
 plt.tight_layout()
-plt.savefig('./comparisons.png', dpi=mydpi, bbox_inches='tight', pad_inches=0.03)
+plt.savefig('./comparisons.png', dpi=300, bbox_inches='tight', pad_inches=0.03)

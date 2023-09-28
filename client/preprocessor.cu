@@ -20,7 +20,6 @@ bool exists(const string& name) {
 
 string gen_filename()
 {
-  srand(time(0));
   bool isTaken = 1;
   char* fileName = (char*) malloc(28);
   while (isTaken != 0) {
@@ -39,7 +38,7 @@ string gen_filename()
 }
 
 int main(int argc, char **argv) {
-
+    srand(time(0));
     ofstream ctxt_mem;
     ctxt_mem.open("../cloud_enc/tapes/priv.txt");
     string fileName;
@@ -48,7 +47,7 @@ int main(int argc, char **argv) {
     PriKey key;
     ReadPriKeyFromFile(key, "super_secret.key");
 
-    const char* directory = "../cloud_enc/";
+    const string directory = "../cloud_enc/";
 
     int wordSize = atoi(argv[2]);
     FILE* ptxt_vals = fopen(argv[1], "r");
@@ -63,10 +62,7 @@ int main(int argc, char **argv) {
         Encrypt(ctxt[i], ptxt[i], key);
       }
       fileName = gen_filename();
-      size_t fname_len = strlen(directory) + strlen(fileName) + 1;
-      char* full_fname = (char*)malloc(fname_len);
-      strcpy(full_fname, directory); // Copy the first part
-      strcat(full_fname, fileName); // Concatenate the second part
+      string full_fname = directory + fileName;
       for (int i=0; i<wordSize; i++) {
           WriteCtxtToFile(ctxt[i], full_fname);
       }

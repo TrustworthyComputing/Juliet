@@ -316,11 +316,11 @@ void ripple_adder(Ctxt* result, const Ctxt* a, const Ctxt* b, const int nb_bits,
 
     //run full adders
     for (int i = 0; i < nb_bits; i++) {
-      Xor(temp[0], a[i], b[i], st[i%NUM_SMS]);
+      Xor(temp[0], a[i], b[i], st_list[i%NUM_SMS]);
       // Compute sum
-      Xor(result[i], carry[i], temp[0], st[i%NUM_SMS]);
+      Xor(result[i], carry[i], temp[0], st_list[i%NUM_SMS]);
       // Compute carry
-      Mux(carry[i+1], temp[0], carry[i], a[i], st[i%NUM_SMS]);
+      Mux(carry[i+1], temp[0], carry[i], a[i], st_list[i%NUM_SMS]);
     }
 
     delete [] carry;

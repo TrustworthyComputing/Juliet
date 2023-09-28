@@ -225,6 +225,30 @@ void subtracter(LweSample* result, const LweSample* a, const LweSample* b, const
     delete_gate_bootstrapping_ciphertext_array(3, temp);
 
 }
+
+void adder_naive(LweSample* result, const LweSample* a, const LweSample* b, const int nb_bits, const TFheGateBootstrappingCloudKeySet* bk) {
+
+    LweSample* carry = new_gate_bootstrapping_ciphertext_array(nb_bits+1, bk->params);
+    LweSample* temp = new_gate_bootstrapping_ciphertext_array(2, bk->params);
+
+    //initialize first carry to 0
+    bootsCONSTANT(&carry[0], 0, bk);
+
+    //run full adders
+
+    for (int i = 0; i < nb_bits; i++) {
+      // Compute sum
+      bootsXOR(&temp[0], &a[i], &b[i], bk);
+      bootsXOR(&result[i], &carry[i], &temp[0], bk);
+      // Compute carry
+      bootsAND(&temp[1], &a[i], &b[i], bk);
+      bootsAND(&temp[0], &carry[i], &temp[0], bk);
+      bootsOR(&carry[i+1], &temp[0], &temp[1], bk);
+    }
+    delete_gate_bootstrapping_ciphertext_array(nb_bits+1, carry);
+    delete_gate_bootstrapping_ciphertext_array(2, temp);
+}
+
 //7
 void adder(LweSample* result, const LweSample* a, const LweSample* b, const int nb_bits, const TFheGateBootstrappingCloudKeySet* bk) {
 

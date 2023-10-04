@@ -12,7 +12,7 @@ def set_style():
       'xtick.labelsize': 12,
       'ytick.labelsize': 12,
       'lines.linewidth': 2,
-      'lines.markersize': 10,
+      'lines.markersize': 11,
       'grid.linestyle': '--',
       'ytick.major.size': 0.1,
       'ytick.minor.size': 0.05,
@@ -42,20 +42,21 @@ none = [None, None, None]
 
 sz = len(juliet)
 df = pd.DataFrame({
-  "Alg": ["Juliet"] * sz + ["Juliet GPU"] * sz + ["T2"] * sz + ["E$^3$"] * sz + ["VSP"] * sz + ["VSP GPU"] * sz,
+  "Alg": ["Juliet"] * sz + ["T2"] * sz + ["Juliet GPU"] * sz + ["E$^3$"] * sz + ["VSP"] * sz + ["VSP GPU"] * sz,
   "Simon Block/Key Size": ['32/64', '64/96', '128/128'] * 6,
-  "Time (sec.)": juliet + juliet_gpu + t2 + e3 + vsp + none,
+  "Time (sec.)": juliet + t2 + juliet_gpu + e3 + vsp + none,
 
   "Time (sec.) extrap": none + none + none + e3_extrap + vsp_extrap + vsp_gpu_extrap,
 })
 
-ax = sns.lineplot(x='Simon Block/Key Size', y='Time (sec.)', hue='Alg', style='Alg', markers=True, data=df)
-ax = sns.lineplot(x='Simon Block/Key Size', y='Time (sec.) extrap', hue='Alg', style='Alg', markers=True, data=df, alpha = 0.3, legend=False)
+ax = sns.lineplot(x='Simon Block/Key Size', y='Time (sec.)', hue='Alg', style='Alg', markers=True, data=df, dashes = False)
+ax = sns.lineplot(x='Simon Block/Key Size', y='Time (sec.) extrap', hue='Alg', style='Alg', markers=True, data=df, alpha = 0.5, legend=False)
 
 
 ax.legend(ncol=3, loc='upper left')
 
-ax.xaxis.grid(False)  # remove vertical axis
+ax.xaxis.grid(False) # remove vertical axis
+ax.yaxis.grid(True, linestyle='dotted')
 ax.set_yscale('log')
 ax.set_ylim([5, 150000])
 ax.set_yticks((10, 100, 1000, 10000, 100000))

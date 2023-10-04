@@ -12,7 +12,7 @@ def set_style():
       'xtick.labelsize': 12,
       'ytick.labelsize': 12,
       'lines.linewidth': 2,
-      'lines.markersize': 10,
+      'lines.markersize': 11,
       'grid.linestyle': '--',
       'ytick.major.size': 0.1,
       'ytick.minor.size': 0.05,
@@ -47,7 +47,7 @@ ax.legend(ncol=1, loc='upper right')
 ax.set_yticks((0, 10, 20, 30))
 ax.set_xticks((1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17))
 ax.xaxis.grid(False)  # remove vertical axis
-
+ax.yaxis.grid(True, linestyle='dotted')
 
 plt.tight_layout()
 plt.savefig("16_bit_adder_topology.png", dpi=300, bbox_inches="tight", pad_inches=0.03)

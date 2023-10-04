@@ -15,7 +15,7 @@ def set_style():
       'xtick.labelsize': 12,
       'ytick.labelsize': 12,
       'lines.linewidth': 2,
-      'lines.markersize': 10,
+      'lines.markersize': 11,
       'grid.linestyle': '--',
       'ytick.major.size': 0.1,
       'ytick.minor.size': 0.1,
@@ -50,6 +50,7 @@ df = pd.DataFrame({
 ax = sns.lineplot(x='Word Size', y='Time (sec.)', hue='Alg', style='Alg', markers=True, data=df)
 ax.legend(ncol=2, loc='upper left')
 ax.xaxis.grid(False)  # remove vertical axis
+ax.yaxis.grid(True, linestyle='dotted')
 ax.set_yscale('log')
 ax.set_yticks((40, 100, 1000, 10000), minor=True)
 

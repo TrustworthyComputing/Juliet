@@ -30,6 +30,19 @@ docker run --rm -i -t juliet bash
 4. Run ``./ppscript.sh`` to automatically generate a ciphertext memory
    directory, which will be placed in the ``cloud_enc`` directory. 
 5. Upload the entire ``cloud_enc`` directory to the cloud server.
+
+### How to cite this work
+The Juliet paper can be accessed [here](https://github.com/TrustworthyComputing/Juliet/blob/main/Juliet.2024.pdf); you can cite this work as follows:
+```
+@misc{gouert2024Juliet,
+    author       = {Charles Gouert and Dimitris Mouris and Nektarios Georgios Tsoutsos},
+    title        = {{Juliet: A Configurable Processor for Computing on Encrypted Data}},
+    year         = {2024},
+    note         = {\url{https://github.com/TrustworthyComputing/Juliet/blob/main/Juliet.2024.pdf}},
+}
+```
+
+
 <p align="center">
     <img src="./logos/twc.png" height="20%" width="20%">
 </p>

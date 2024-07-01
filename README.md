@@ -32,12 +32,16 @@ docker run --rm -i -t juliet bash
 5. Upload the entire ``cloud_enc`` directory to the cloud server.
 
 ### How to cite this work
-The Juliet paper can be accessed [here](https://trustworthycomputing.github.io/Juliet/Juliet.2024.pdf); you can cite this work as follows:
+The Juliet paper can be accessed [here](https://trustworthycomputing.github.io/Juliet/Juliet.2024.pdf) and [here](https://ieeexplore.ieee.org/document/10564806); you can cite this work as follows:
 ```
-@misc{gouert2024Juliet,
-    author       = {Charles Gouert and Dimitris Mouris and Nektarios Georgios Tsoutsos},
+@article{gouert2024Juliet,
+    author       = {Gouert, Charles and Mouris, Dimitris and Tsoutsos, Nektarios Georgios},
     title        = {{Juliet: A Configurable Processor for Computing on Encrypted Data}},
+    journal      = {IEEE Transactions on Computers},
+    publisher    = {IEEE},
     year         = {2024},
+    pages        = {1-14},
+    doi          = {10.1109/TC.2024.3416752},
     note         = {\url{https://trustworthycomputing.github.io/Juliet/Juliet.2024.pdf}},
 }
 ```

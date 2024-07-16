@@ -46,6 +46,8 @@ The Juliet paper can be accessed [here](https://trustworthycomputing.github.io/J
 }
 ```
 
+## Acknowledgments
+This work was supported by the National Science Foundation (Award #2239334).
 
 <p align="center">
     <img src="./logos/twc.png" height="20%" width="20%">
